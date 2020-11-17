@@ -1,7 +1,17 @@
 var express = require('express');
 var app = express();
 
+app.locals.pretty = true;
+
+app.set('view engine', 'jade'); //express와 jade 연결
+app.set('views', './views');
+
 app.use(express.static('public'));
+
+app.get('/template', function(req, res){
+    res.render('temp', {time:Date(), _title:'Jade'});
+});
+
 app.get('/', function(req, res){        //get:routing, router 길을 찾는다라는 뜻
     res.send('Welcome home page!!');
 }); 
