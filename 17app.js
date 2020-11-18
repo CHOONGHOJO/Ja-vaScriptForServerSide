@@ -7,6 +7,8 @@ app.set('view engine', 'jade'); //express와 jade 연결
 app.set('views', './views');
 
 app.use(express.static('public'));
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.get('/form', function(req, res){
     res.render('form');
@@ -18,18 +20,23 @@ app.get('/form_receiver', function(req, res){
     res.send(title + ',' + description);
 });
 
+app.post('/form_receiver', function(req, res){
+    var title = req.body.title;
+    var description = req.body.description;
+    res.send(title + ',' + description);
+});
+
 app.get('/topic/:id', function(req, res){
     var topics = [
-        'Java is ...',
+        'JavaScript is ...',
         'Nodejs is ...',
         'Express is ...'
     ];
     var output = `
-    <a href="/topic?id=0">JavaScript</a><br>
-    <a href="/topic?id=1">Nodejs</a><br>
-    <a href="/topic?id=2">Express</a><br><br>
-    s{topics[req.params.id]}
-
+    <a href="/topic/0">JavaScript</a><br>
+    <a href="/topic/1">Nodejs</a><br>
+    <a href="/topic/2">Express</a><br><br>
+    ${topics[req.params.id]}
     `
     res.send(output);
 })
