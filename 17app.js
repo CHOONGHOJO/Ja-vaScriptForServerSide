@@ -18,9 +18,10 @@ app.get('/topic', function(req, res){
     <a href="/topic?id=0">JavaScript</a><br>
     <a href="/topic?id=1">Nodejs</a><br>
     <a href="/topic?id=2">Express</a><br><br>
-    s{topics[req.params.id]}
+    s{topics[req.query.id]}
+
     `
-    res.send(topics[req.query.id]);
+    res.send(output);
 })
 
 app.get('/topic/:id/:mode', function(req, res){
