@@ -8,7 +8,17 @@ app.set('views', './views');
 
 app.use(express.static('public'));
 
-app.get('/topic', function(req, res){
+app.get('/form', function(req, res){
+    res.render('form');
+});
+
+app.get('/form_receiver', function(req, res){
+    var title = req.query.title;
+    var description = req.query.description;
+    res.send(title + ',' + description);
+});
+
+app.get('/topic/:id', function(req, res){
     var topics = [
         'Java is ...',
         'Nodejs is ...',
@@ -18,7 +28,7 @@ app.get('/topic', function(req, res){
     <a href="/topic?id=0">JavaScript</a><br>
     <a href="/topic?id=1">Nodejs</a><br>
     <a href="/topic?id=2">Express</a><br><br>
-    s{topics[req.query.id]}
+    s{topics[req.params.id]}
 
     `
     res.send(output);
