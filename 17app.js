@@ -8,6 +8,29 @@ app.set('views', './views');
 
 app.use(express.static('public'));
 
+app.get('/topic', function(req, res){
+    var topics = [
+        'Java is ...',
+        'Nodejs is ...',
+        'Express is ...'
+    ];
+    var output = `
+    <a href="/topic?id=0">JavaScript</a><br>
+    <a href="/topic?id=1">Nodejs</a><br>
+    <a href="/topic?id=2">Express</a><br><br>
+    s{topics[req.params.id]}
+    `
+    res.send(topics[req.query.id]);
+})
+
+app.get('/topic/:id/:mode', function(req, res){
+    res.send(req.params.id+','+req.params.mode)
+})
+
+app.get('/param/:module_id/:topic_id', function(req, res){
+    res.json(req.params);
+})
+
 app.get('/template', function(req, res){
     res.render('temp', {time:Date(), _title:'Jade'});
 });
