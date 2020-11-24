@@ -21,12 +21,10 @@ app.get('/count', function(req, res){
   }
   res.send('count :' +req.session.count);
 });
-
 app.get('/auth/logout', function(req, res){
   delete req.session.displayName;
   res.redirect('/welcome');
 });
-
 app.get('/welcome', function(req, res){
   if (req.session.displayName) {
     res.send(`
@@ -43,7 +41,6 @@ app.get('/welcome', function(req, res){
     `);
   }
 });
-
 app.post('/auth/login', function(req, res){
   var uname = req.body.username;
   var pwd = req.body.password;
@@ -60,35 +57,33 @@ app.post('/auth/login', function(req, res){
           res.send('Who are you ? <a href="/auth/login">login</a>');
         }
       });
-  }
+   }
+}
   res.send('Who are you ? <a href="/auth/login">login</a>');
 });
 var users = [
   {
     username: 'egoing',
-    password: '111111',
-    password: '698d51a19d8a121ce581499d7b701668',
-    password:'4e3906f022fa70dc61b695c4a761956688cb97e724a51ca0aaafc5a97dea59c5',
-    password:'mTi+/qIi9s5ZFRPDxJLY8yAhlLnWTgYZNXfXlQ32e1u/hZePhlq41NkRfffEV+T92TGTlfxEitFZ98QhzofzFHLneWMWiEekxHD1qMrTH1CWY01NbngaAfgfveJPRivhLxLD1iJajwGmYAXhr69VrN2CWkVD+aS1wKbZd94bcaE=',
     password:'mTi+/qIi9s5ZFRPDxJLY8yAhlLnWTgYZNXfXlQ32e1u/hZePhlq41NkRfffEV+T92TGTlfxEitFZ98QhzofzFHLneWMWiEekxHD1qMrTH1CWY01NbngaAfgfveJPRivhLxLD1iJajwGmYAXhr69VrN2CWkVD+aS1wKbZd94bcaE=',
     salt:'O0iC9xqMBUVl3BdO50+JWkpvVcA5g2VNaYTR5Hc45g+/iXy4PzcCI7GJN5h5r3aLxIhgMN8HSh0DhyqwAp8lLw==',salt:'O0iC9xqMBUVl3BdO50+JWkpvVcA5g2VNaYTR5Hc45g+/iXy4PzcCI7GJN5h5r3aLxIhgMN8HSh0DhyqwAp8lLw==',
     displayName: 'Egoing'
   }
 ];
-
 app.post('/auth/register', function(req, res){
-  var user = {
-    username: req.body.username,
-    password: req.body.password,
-    displayName: req.body.displayName
-  };
-  users.push(user);
-  req.session.displayName = req.body.displayName;
-  req.session.save(function(){
-    res.redirect('/welcome');
+  hasher({password: req.body.password}, function(err, pass, salt, hash){
+    var user = {
+      username: req.body.username,
+      password: hash,
+      salt: salt,
+      displayName: req.body.displayName
+    };
+    users.push(user);
+    req.session.displayName = req.body.displayName;
+    req.session.save(function(){
+      res.redirect('/welcome');
+    });
   });
 });
-
 app.get('/auth/register/', function(req, res) {
   var output = `
   <h1>Register</h1>
@@ -109,8 +104,6 @@ app.get('/auth/register/', function(req, res) {
   `;
   res.send(output);
 });
-
-
 app.get('/auth/login', function(req, res){
   var output = `
   <h1>Login</h1>
@@ -128,7 +121,6 @@ app.get('/auth/login', function(req, res){
   `;
    res.send (output);
 });
-
 app.listen(3003, function(){
   console.log('Connected 3003 port!!');
 });
