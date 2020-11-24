@@ -2,6 +2,9 @@ var express = require('express');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
 var bodyParser = require('body-parser');
+var bkfd2Password = require("pbkdf2-password");
+var hasher = bkfd2Password();
+
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
@@ -46,7 +49,7 @@ app.post('/auth/login', function(req, res){
   var pwd = req.body.password;
   for (var i=0;  i<users.length; i++){
     var user = users[i];
-    if (uname === user.username && pwd === user.password){
+    if (uname === user.username && sha256(pwd+salt) === user.password){
       req.session.displayName = user.displayName;
       return req.session.save(function(){
         res.redirect('/welcome');
@@ -55,11 +58,16 @@ app.post('/auth/login', function(req, res){
   }
   res.send('Who are you ? <a href="/auth/login">login</a>');
 });
-
+var salt = ''
 var users = [
   {
     username: 'egoing',
     password: '111',
+    password: '698d51a19d8a121ce581499d7b701668',
+    password:'4e3906f022fa70dc61b695c4a761956688cb97e724a51ca0aaafc5a97dea59c5',
+    password:'mTi+/qIi9s5ZFRPDxJLY8yAhlLnWTgYZNXfXlQ32e1u/hZePhlq41NkRfffEV+T92TGTlfxEitFZ98QhzofzFHLneWMWiEekxHD1qMrTH1CWY01NbngaAfgfveJPRivhLxLD1iJajwGmYAXhr69VrN2CWkVD+aS1wKbZd94bcaE=',
+    password:'mTi+/qIi9s5ZFRPDxJLY8yAhlLnWTgYZNXfXlQ32e1u/hZePhlq41NkRfffEV+T92TGTlfxEitFZ98QhzofzFHLneWMWiEekxHD1qMrTH1CWY01NbngaAfgfveJPRivhLxLD1iJajwGmYAXhr69VrN2CWkVD+aS1wKbZd94bcaE=',
+    salt:'O0iC9xqMBUVl3BdO50+JWkpvVcA5g2VNaYTR5Hc45g+/iXy4PzcCI7GJN5h5r3aLxIhgMN8HSh0DhyqwAp8lLw==',salt:'O0iC9xqMBUVl3BdO50+JWkpvVcA5g2VNaYTR5Hc45g+/iXy4PzcCI7GJN5h5r3aLxIhgMN8HSh0DhyqwAp8lLw==',
     displayName: 'Egoing'
   }
 ];
