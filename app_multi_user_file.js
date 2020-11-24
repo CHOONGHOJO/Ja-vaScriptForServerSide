@@ -49,20 +49,24 @@ app.post('/auth/login', function(req, res){
   var pwd = req.body.password;
   for (var i=0;  i<users.length; i++){
     var user = users[i];
-    if (uname === user.username && sha256(pwd+salt) === user.password){
-      req.session.displayName = user.displayName;
-      return req.session.save(function(){
-        res.redirect('/welcome');
+    if (uname === user.username) {
+      return hasher({password: pwd, salt: user.salt}, function(err, pass, salt, hash){
+        if (hash === user.password) {
+          req.session.displayName = user.displayName;
+          req.session.save(function(){
+            res.redirect('/welcome');
+          })
+        } else {
+          res.send('Who are you ? <a href="/auth/login">login</a>');
+        }
       });
-    }
   }
   res.send('Who are you ? <a href="/auth/login">login</a>');
 });
-var salt = ''
 var users = [
   {
     username: 'egoing',
-    password: '111',
+    password: '111111',
     password: '698d51a19d8a121ce581499d7b701668',
     password:'4e3906f022fa70dc61b695c4a761956688cb97e724a51ca0aaafc5a97dea59c5',
     password:'mTi+/qIi9s5ZFRPDxJLY8yAhlLnWTgYZNXfXlQ32e1u/hZePhlq41NkRfffEV+T92TGTlfxEitFZ98QhzofzFHLneWMWiEekxHD1qMrTH1CWY01NbngaAfgfveJPRivhLxLD1iJajwGmYAXhr69VrN2CWkVD+aS1wKbZd94bcaE=',
