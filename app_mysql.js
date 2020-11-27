@@ -18,6 +18,7 @@ var conn = mysql.createConnection({
   password : '123456',
   database : 'o2'
 });
+
 conn.connect();
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));  
