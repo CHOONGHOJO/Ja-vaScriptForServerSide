@@ -49,7 +49,6 @@ app.get('/welcome', function(req, res){
   }
 });
 //==============================
-
 passport.serializeUser(function(user, done) {
   console.log('serializeUser', user);
   done (null, user.username);

@@ -15,9 +15,7 @@ var _storage = multer.diskStorage({
     }
   })
 var upload = multer({ storage: _storage })
-
 var fs = require('fs');
-
 var app = express();
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded

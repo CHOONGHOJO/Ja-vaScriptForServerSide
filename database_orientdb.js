@@ -64,3 +64,4 @@ db.query(sql).then(function(results){
 // db.query(sql, {params:{rid:'#22:2'}}).then(function(results){
 //     console.log(results);
 // });
+

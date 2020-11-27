@@ -3,7 +3,6 @@ var cookieParser = require('cookie-parser');
 var app = express();
 app.use(cookieParser());
 
-
 var products = {
     1: {title: 'The history of web 1'},
     2: {title: 'The next web'}

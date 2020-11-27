@@ -1,6 +1,4 @@
 var express = require('express');
-
-// file upload
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' })
 var upload = multer({ storage: _storage })
@@ -15,10 +13,7 @@ var _storage = multer.diskStorage({
     }
   })
 var upload = multer({ storage: _storage })
-
 fs = require('fs');
-
-// Connect to OrientDB
 var OrientDB = require('orientjs');
 const { values } = require('underscore');
 var server = OrientDB ({
@@ -28,7 +23,6 @@ var server = OrientDB ({
   password: 'M0000000'
 });
 var db = server.use('ssjs')  //web1
-
 var app = express();
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
