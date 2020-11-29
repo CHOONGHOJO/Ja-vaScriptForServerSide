@@ -1,0 +1,20 @@
+extends ../layout
+block content
+  | Hello TESTing !!! in views/mysql/topic/view.jade
+  artcle
+    if topic
+      h2= topic.title
+      =topic.description
+      div= 'by '+topic.author
+    else
+      h2 Welcome
+      | This is server side Java Script tutorial.
+  ul
+    li 
+      a(href='/topic/add')  ADD
+    if topic
+      li
+        a(href='/topic/'+topic.id+'/edit') EDIT
+      li
+        a(href='/topic/'+topic.id+'/delete') DELETE
+        
