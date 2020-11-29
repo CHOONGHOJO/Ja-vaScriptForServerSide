@@ -8,7 +8,6 @@ var hasher = bkfd2Password();
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 //==============================
 passport.serializeUser(function(user, done) {
     console.log('serializeUser', user);

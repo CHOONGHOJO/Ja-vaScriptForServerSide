@@ -21,6 +21,5 @@ module.exports = function(){
         database:'o2'
       })
     }));
-    
     return  app;
 }
